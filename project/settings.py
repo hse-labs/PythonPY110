@@ -19,13 +19,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+import os
+from dotenv import load_dotenv
+load_dotenv()  # здесь загружаются данные из .env и отправляются в переменные окружения
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-l5#&^h2o8m$_^9h560vc8iwwih-44p27pbzq23^&ej-jujsr!c'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS').split(',')]
 
 
 # Application definition
@@ -120,6 +124,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+if 'localhost' in ALLOWED_HOSTS:
+   STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Папка для локального проекта
+else:
+   STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # Папка для сервера
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
