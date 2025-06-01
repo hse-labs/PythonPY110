@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>HTMX + Django</title>
+    <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+</head>
+<body>
+    <p>Нажми, чтобы динамически подгрузить данные из html</p>
+    <button hx-get="/htmx/load_products/" hx-target="#products">Загрузить товары</button>
+    <ul id="products"></ul>
+<!--    Использование Django шаблона-->
+    <p>Нажми, чтобы динамически подгрузить данные из html (Django шаблон)</p>
+    <button hx-get="{% url 'app_htmx:load_products_with_render' %}" hx-target="#products_render">Загрузить товары (шаблон)</button>
+    <ul id="products_render"></ul>
+</body>
+</html>
