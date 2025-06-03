@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>HTMX hx-swap Демонстрация</title>
+  <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px;}
+    h2 { padding: 40px 0px 0px 0px;}
+    .demo-block {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .response {
+      padding: 5px;
+      color: white;
+      background: #868e96;
+    }
+  </style>
+</head>
+<body>
+
+<h1>HTMX: Демонстрация hx-swap</h1>
+
+<h2>1. hx-swap="innerHTML"</h2>
+<div class="demo-block">
+  <div class="response" id="inner">Данный текст заменится на ответ</div>
+  <button
+    hx-get="/htmx/hx-swap/inner"
+    hx-target="#inner"
+    hx-swap="innerHTML">
+    innerHTML
+  </button>
+</div>
+
+
+<h2>2. hx-swap="outerHTML"</h2>
+<div class="demo-block">
+  <div class="response" id="outer">Это будет полностью заменено (outerHTML)</div>
+  <button
+    hx-get="/htmx/hx-swap/outer"
+    hx-target="#outer"
+    hx-swap="outerHTML">
+    outerHTML
+  </button>
+</div>
+
+
+<h2>3. hx-swap="textContent"</h2>
+<div class="demo-block">
+  <div class="response" id="text"><b>Жирный текст</b></div>
+  <button
+    hx-get="/htmx/hx-swap/text"
+    hx-target="#text"
+    hx-swap="textContent">
+    textContent
+  </button>
+</div>
+
+
+<h2>4. hx-swap="beforebegin"</h2>
+<div class="demo-block">
+  <div class="response" id="before">Контейнер</div>
+  <button
+    hx-get="/htmx/hx-swap/before"
+    hx-target="#before"
+    hx-swap="beforebegin">
+    beforebegin
+  </button>
+</div>
+
+
+<h2>5. hx-swap="afterbegin"</h2>
+<div class="demo-block">
+  <div class="response" id="after-begin">Вставка будет первой внутри</div>
+  <button
+    hx-get="/htmx/hx-swap/after-begin"
+    hx-target="#after-begin"
+    hx-swap="afterbegin">
+    afterbegin
+  </button>
+</div>
+
+
+<h2>6. hx-swap="beforeend"</h2>
+<div class="demo-block">
+  <div class="response" id="before-end">Вставка будет последней внутри</div>
+  <button
+    hx-get="/htmx/hx-swap/before-end"
+    hx-target="#before-end"
+    hx-swap="beforeend">
+    beforeend
+  </button>
+</div>
+
+
+<h2>7. hx-swap="afterend"</h2>
+<div class="demo-block">
+  <div class="response" id="after">Элемент</div>
+  <button
+    hx-get="/htmx/hx-swap/after"
+    hx-target="#after"
+    hx-swap="afterend">
+    afterend
+  </button>
+</div>
+
+
+<h2>8. hx-swap="delete"</h2>
+<div class="demo-block">
+  <div class="response" id="delete">Этот элемент будет удалён</div>
+  <button
+    hx-get="/htmx/hx-swap/delete"
+    hx-target="#delete"
+    hx-swap="delete">
+    delete
+  </button>
+</div>
+
+
+<h2>9. hx-swap="none"</h2>
+<div class="demo-block">
+  <div class="response" id="none">Ничего не изменится</div>
+  <button
+    hx-get="/htmx/hx-swap/none"
+    hx-target="#none"
+    hx-swap="none">
+    none
+  </button>
+</div>
+
+</body>
+</html>

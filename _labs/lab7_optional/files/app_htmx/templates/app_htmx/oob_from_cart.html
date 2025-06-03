@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>HTMX hx-trigger Демонстрация</title>
+  <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+  <style>
+    .notification {
+      background: #4caf50;
+      color: white;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      transition: opacity 0.3s ease;
+    }
+    .hidden {
+      opacity: 0;
+    }
+    .visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+
+  <h2>🛒 Добавление товара в корзину</h2>
+
+  <!-- Кнопка вызывает серверный запрос -->
+  <button
+    hx-post="/htmx/oob_from_cart/add/"
+    hx-select-oob="#cart,#notification"
+    hx-target="#action-result">
+    ➕ Добавить в корзину
+  </button>
+
+  <!-- Обычный отклик -->
+  <div id="action-result" class="box">Ждём действие...</div>
+
+  <!-- Корзина, которая будет обновлена через hx-swap-oob -->
+  <div id="cart" class="box">🛒 Корзина пуста</div>
+
+  <!-- Уведомление -->
+  <div id="notification" class="notification hidden"></div>
+
+
+
+  <script>
+    // Простая логика для анимации показа уведомления
+    document.body.addEventListener('htmx:oobAfterSwap', function(evt) {
+      if (evt.target.id === "notification") {
+        evt.target.classList.remove("hidden");
+        evt.target.classList.add("visible");
+        setTimeout(() => {
+          evt.target.classList.remove("visible");
+          evt.target.classList.add("hidden");
+        }, 3000);
+      }
+    });
+  </script>
+</body>

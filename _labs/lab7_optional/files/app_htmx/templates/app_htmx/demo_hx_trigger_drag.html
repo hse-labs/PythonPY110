@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>HTMX hx-trigger Демонстрация</title>
+  <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px;}
+    h2 { padding: 40px 0px 0px 0px;}
+    .box {
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      display: inline-block;
+      min-width: 200px;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+    .response {
+      margin-top: 5px;
+      color: darkgreen;
+      font-weight: bold;
+    }
+    .draggable {
+      width: 100px;
+      height: 100px;
+      background: #48f;
+      color: white;
+      text-align: center;
+      line-height: 100px;
+      cursor: move;
+      user-select: none;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+    }
+
+    .dropzone {
+      width: 300px;
+      height: 150px;
+      border: 3px dashed #aaa;
+      background: #f8f8f8;
+      text-align: center;
+      padding: 1rem;
+      transition: 0.3s;
+    }
+
+    .dropzone.highlight {
+      background: #e0ffe0;
+      border-color: green;
+    }
+  </style>
+</head>
+<body>
+<h1> Drag & Drop с HTMX</h1>
+
+<!-- Элемент, который можно перетаскивать -->
+<h2>Элемент, который можно перетаскивать</h2>
+<!--draggable="true" — обязательно на перетаскиваемом элементе-->
+<div class="draggable"
+     draggable="true"
+     hx-get="/htmx/hx-trigger/drag/drag-start/"
+     hx-trigger="dragstart"
+     hx-target="#drag-events">
+  Тяни меня
+</div>
+
+<!-- Зона сброса -->
+<h2>Зона сброса</h2>
+<!-- ondragover="event.preventDefault()" — нужно для работы drop-->
+<div class="dropzone" ondragover="event.preventDefault()">
+  <!-- Перехватываем все события -->
+  <!-- Событие над объектом -->
+  <div hx-get="/htmx/hx-trigger/drag/drag-over/"
+     hx-trigger="dragover"
+     hx-target="#drag-events"
+     style="margin-top: -35px;">Выше зоны
+  </div>
+  <!-- Событие входа -->
+  <div hx-get="/htmx/hx-trigger/drag/drag-enter/"
+     hx-trigger="dragenter"
+     hx-target="#drag-events"
+       style="height: 20px;">Вошли в зону
+  </div>
+  <!-- Событие drop-->
+  <div hx-post="/htmx/hx-trigger/drag/drop/"
+     hx-trigger="drop"
+     hx-target="#drag-events"
+     hx-vals='{"name": "Тяни меня"}'
+  style="height: 170px; align-content: center;">
+  Перетащи сюда
+  </div>
+  <!-- Событие на выход -->
+  <div hx-get="/htmx/hx-trigger/drag/drag-leave/"
+       hx-trigger="dragleave"
+       hx-target="#drag-events"
+       style="height: 20px;">Вышли
+  </div>
+</div>
+
+<!-- Отображение событий -->
+<h2>Отображение событий</h2>
+<div id="drag-events" style="margin-top: 1rem;"></div>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>HTMX hx-trigger Демонстрация</title>
+  <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px;}
+    h2 { padding: 40px 0px 0px 0px;}
+    .box {
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      display: inline-block;
+      min-width: 200px;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+<h1> HTMX Загрузка элементов</h1>
+
+<!-- AUTO LOAD -->
+  <h2> Автозагрузка при загрузке DOM (load)</h2>
+  <div
+    class="box"
+    hx-get="/htmx/hx-trigger/load/auto/"
+    hx-trigger="load"
+    hx-target="#load-result"
+    hx-swap="innerHTML">
+    Загружается автоматически при загрузке...
+  </div>
+  <div id="load-result" class="box">Ожидание...</div>
+
+  <!-- REVEALED -->
+  <h2 style="margin-top: 100vh;"> Появление в viewport (revealed)</h2>
+  <div
+    class="box"
+    hx-get="/htmx/hx-trigger/load/revealed/"
+    hx-trigger="revealed"
+    hx-target="#revealed-result"
+    hx-swap="innerHTML">
+    Дождись появления на экране
+  </div>
+  <div id="revealed-result" class="box"> Ждём появления...</div>
+
+  <!-- INTERSECT -->
+  <h2 style="margin-top: 100vh;">Загрузка при пересечении (intersect once)</h2>
+  <div
+    class="box"
+    hx-get="/htmx/hx-trigger/load/intersect/"
+    hx-trigger="intersect once"
+    hx-target="#intersect-result"
+    hx-swap="innerHTML">
+    Когда дойдёшь до сюда — данные загрузятся
+  </div>
+  <div id="intersect-result" class="box"> Ждём прокрутки...</div>
+
+</body>
+</html>

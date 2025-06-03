@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>HTMX hx-trigger Демонстрация</title>
+  <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px;}
+    h2 { padding: 40px 0px 0px 0px;}
+    .box {
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      display: inline-block;
+      min-width: 200px;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+    .response {
+      margin-top: 5px;
+      color: darkgreen;
+      font-weight: bold;
+    }
+    input, select, button {
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      display: block;
+      width: 100%;
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+<h1>HTMX: События ввода (hx-trigger)</h1>
+
+
+<h2>1. input — поиск при вводе</h2>
+  <input name="query"
+         placeholder="Поиск..."
+         hx-get="/htmx/hx-trigger/input/search/"
+         hx-trigger="input changed delay:300ms"
+         hx-target="#results"
+         hx-swap="innerHTML">
+  <div id="results"></div>
+
+
+  <h2>2. change — выбор из списка</h2>
+  <select name="category"
+          hx-get="/htmx/hx-trigger/input/filter/"
+          hx-trigger="change"
+          hx-target="#category-result">
+    <option value="">-- выбрать --</option>
+    <option value="books">Книги</option>
+    <option value="music">Музыка</option>
+  </select>
+  <div id="category-result"></div>
+
+  <h2>3. keydown — реакция на Enter</h2>
+  <input name="keytest"
+         placeholder="Нажми Enter"
+         hx-get="/htmx/hx-trigger/input/keydown/"
+         hx-trigger="keydown"
+         hx-target="#keydown-result">
+  <div id="keydown-result"></div>
+
+
+  <h2>4. keyup — живой поиск</h2>
+  <input name="search"
+         placeholder="Живой поиск..."
+         hx-get="/htmx/hx-trigger/input/live-search/"
+         hx-trigger="keyup changed delay:300ms"
+         hx-target="#live-result">
+  <div id="live-result"></div>
+
+
+  <h2>5. submit — отправка формы</h2>
+  <form>
+    <input name="name" placeholder="Имя">
+    <button hx-post="/htmx/hx-trigger/input/submit-form/"
+        hx-target="#submit-result"
+        hx-swap="innerHTML">Отправить</button>
+  </form>
+  <div id="submit-result"></div>
+
+  <h2>6. reset — сброс формы</h2>
+  <form>
+    <input name="email" placeholder="Email">
+    <button hx-trigger="reset"
+        hx-post="/htmx/hx-trigger/input/form-reset/"
+        hx-target="#reset-result">Сбросить</button>
+  </form>
+  <div id="reset-result"></div>
+
+
+  <h2>7. focus — получение фокуса</h2>
+  <input name="username"
+         placeholder="Логин"
+         hx-get="/htmx/hx-trigger/input/username-help/"
+         hx-trigger="focus"
+         hx-target="#focus-result">
+  <div id="focus-result"></div>
+
+  <h2>8. blur — проверка email при выходе</h2>
+  <input name="email"
+         placeholder="Email"
+         hx-post="/htmx/hx-trigger/input/validate-email/"
+         hx-trigger="blur changed"
+         hx-target="#blur-result">
+  <div id="blur-result"></div>
+
+
+  <h2>9. focusin / focusout — отслеживание фокуса в группе полей</h2>
+  <div hx-get="/htmx/hx-trigger/input/focus-event/"
+       hx-trigger="focusin from:input, textarea"
+       hx-target="#focus-info">
+    <input placeholder="Фокус здесь...">
+    <textarea placeholder="Или тут..."></textarea>
+  </div>
+  <div id="focus-info"></div>
+
+  <div hx-get="/htmx/hx-trigger/input/blur-event/"
+       hx-trigger="focusout from:input, textarea"
+       hx-target="#blur-info">
+    <input placeholder="Ушёл отсюда...">
+    <textarea placeholder="Или отсюда..."></textarea>
+  </div>
+  <div id="blur-info"></div>
+
+
+  <h2>10. copy / cut / paste — события буфера обмена</h2>
+  <input placeholder="Попробуй скопировать комбинацией Ctrl+C"
+         hx-get="/htmx/hx-trigger/input/clipboard-event/"
+         hx-trigger="copy"
+         hx-vals='{"action": "copy"}'
+         hx-target="#clipboard-result">
+
+  <input placeholder="Попробуй вырезать комбинацией Ctrl+X"
+         hx-get="/htmx/hx-trigger/input/clipboard-event/"
+         hx-trigger="cut"
+         hx-vals='{"action": "cut"}'
+         hx-target="#clipboard-result">
+
+  <input placeholder="Попробуй вставить комбинацией Ctrl+V"
+         hx-get="/htmx/hx-trigger/input/clipboard-event/"
+         hx-trigger="paste"
+         hx-vals='{"action": "paste"}'
+         hx-target="#clipboard-result">
+
+  <div id="clipboard-result"></div>
+
+</body>
+</html>

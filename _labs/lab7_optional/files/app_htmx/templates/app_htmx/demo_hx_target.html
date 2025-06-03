@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>HTMX hx-target Демонстрация</title>
+  <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px;}
+    h2 { padding: 40px 0px 0px 0px;}
+    .box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .details, .error, .output, .msg { background: #f9f9f9; padding: 5px; }
+  </style>
+</head>
+<body>
+
+  <h1>HTMX hx-target Демонстрация</h1>
+
+  <h2>1. hx-target="#products"</h2>
+  <h4>Замена текста по блоку с id="products"</h4>
+  <div id="products" class="box">Блок с id="products". Тут произойдет замена</div>
+  <div class="box">Обычный блок</div>
+  <button
+    hx-get="/htmx/load_products/"
+    hx-target="#products"
+    hx-swap="innerHTML">
+    Загрузить товары
+  </button>
+
+  <h2>2. hx-target="this"</h2>
+  <h4>Пр нажатии на кнопку - заменится кнопка</h4>
+  <button
+    hx-get="/htmx/hx-target/load-status/"
+    hx-target="this"
+    hx-swap="outerHTML">
+    Проверить статус
+  </button>
+
+  <h2>3. hx-target="closest tr"</h2>
+  <h4>Ищет ближайший блок tr к кнопке и полностью заменяет его содержимое</h4>
+  <table border="1">
+    <tr>
+      <td>Товар A</td>
+      <td>Вся строка заменится, так как она ближайшая к кнопке</td>
+      <td>
+        <button
+          hx-get="/htmx/hx-target/row-details/"
+          hx-target="closest tr"
+          hx-swap="outerHTML">
+          Подробнее
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>Товар Б</td>
+      <td>А тут не поменяется</td>
+      <td>Кнопки нет</td>
+    </tr>
+  </table>
+
+  <h2>4. hx-target="find .details"</h2>
+  <h4>Ответ вставится в первый вложенный class=details внутри class=product</h4>
+  <div class="details">Данный class=details не внутри блока class=product с кнопкой</div>
+  <div class="product box"
+       hx-get="/htmx/hx-target/product-details/"
+       hx-target="find .details"
+       hx-swap="innerHTML"
+       hx-trigger="click .load-btn">
+
+    <button class="load-btn">
+      Показать детали
+    </button>
+    <div class="details">Ответ вставится в первый вложенный class=details внутри этого блока class=product</div>
+    <div class="details">Это второй блок</div>
+    <div class="details">Это третий блок</div>
+  </div>
+
+  <h2>5. hx-target="next"</h2>
+  <h4>Ответ попадет в следующий элемент после кнопки.</h4>
+  <button
+    hx-get="/htmx/hx-target/more-info/"
+    hx-target="next"
+    hx-swap="innerHTML">
+    Подробнее
+  </button>
+  <div class="box">Ответ попадет в следующий элемент после кнопки.</div>
+  <div class="box">Здесь уже ничего</div>
+
+  <h2>6. hx-target="next .error"</h2>
+  <h4>Ответ от сервера попадёт в ближайший следующий .error-блок.</h4>
+
+  <form hx-post="/htmx/hx-target/validate/" hx-target="next .error" hx-swap="innerHTML">
+    <input name="email" placeholder="Введите email" />
+    <button type="submit">Проверить</button>
+  </form>
+
+  <div class="box">Это не блок class=error</div>
+  <div class="error box">Это блок class=error</div>
+  <div class="error box">И это тоже блок class=error</div>
+
+  <h2>7. hx-target="previous"</h2>
+  <h4>Ответ попадёт в предыдущий соседний элемент от кнопки, т.е. .output.</h4>
+  <div class="input box">[input]</div>
+  <div class="output box">[output]</div>
+  <button
+    hx-get="/htmx/hx-target/result/"
+    hx-target="previous"
+    hx-swap="innerHTML">
+    Обновить
+  </button>
+
+  <h2>8. hx-target="previous .msg"</h2>
+  <h4>HTMX найдёт предыдущий .msg внутри родительского элемента и вставит туда ответ</h4>
+  <div class="msg box">блок .msg</div>
+  <div class="tmp box">блок .tmp</div>
+  <div class="msg box">блок .msg</div>
+  <div class="tmp box">блок .tmp</div>
+  <button
+    hx-get="/htmx/hx-target/note/"
+    hx-target="previous .msg"
+    hx-swap="innerHTML">
+    Показать сообщение
+  </button>
+  <div class="tmp box">блок .tmp</div>
+  <div class="msg box">блок .msg</div>
+</body>
+</html>

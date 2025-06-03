@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>HTMX hx-trigger Демонстрация</title>
+  <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+  <style>
+    :root {
+      --bg-light: #fff;
+      --bg-dark: #1e1e1e;
+      --text-light: #000;
+      --text-dark: #fff;
+      --accent: #4a90e2;
+    }
+
+    [data-theme="light"] {
+      background-color: var(--bg-light);
+      color: var(--text-light);
+    }
+
+    [data-theme="dark"] {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    body {
+      font-family: sans-serif;
+      margin: 2rem;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    h2 {
+      margin-top: 3rem;
+    }
+
+    .box {
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid #ccc;
+      transition: background-color 0.3s, transform 0.3s;
+      animation: fadeIn 0.5s ease;
+    }
+    .lazy-container {
+    min-height: 300px;
+    border: 1px dashed #ccc;
+    padding: 10px;
+  }
+
+  .color-box {
+    height: 300px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    animation: fade-in 0.5s ease-in;
+  }
+    .lazy-block {
+      margin-top: 100vh;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .loading-trigger {
+    text-align: center;
+    padding: 40px;
+    font-style: italic;
+    color: #777;
+  }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* Медиа-запрос */
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9rem;
+      }
+      .box {
+        background: rgba(0, 0, 0, 0.1);
+      }
+    }
+  </style>
+</head>
+<body>
+<button class="theme-toggle" onclick="toggleTheme()">🌓 Сменить тему</button>
+
+  <h1>HTMX: Адаптивные триггеры с эффектами</h1>
+
+  <!-- Every 1 seconds -->
+  <h2>Обновление каждые 1 секунду</h2>
+  <div hx-get="/htmx/hx-trigger/adaptive/every/"
+       hx-trigger="every 1s"
+       hx-target="#every-box"
+       hx-swap="innerHTML">
+  </div>
+  <div id="every-box" class="box">Ожидание обновления...</div>
+
+  <!-- load with delay -->
+  <h2>Загрузка при старте с задержкой</h2>
+  <div hx-get="/htmx/hx-trigger/adaptive/delayed/"
+       hx-trigger="load delay:1000ms"
+       hx-target="#delayed-box"
+       hx-swap="innerHTML">
+  </div>
+  <div id="delayed-box" class="box">Ждём 1 секунду...</div>
+
+  <!-- Resize -->
+  <h2>Изменение размера окна</h2>
+  <div hx-get="/htmx/hx-trigger/adaptive/resize/"
+       hx-trigger="resize from:window throttle:1000ms"
+       hx-target="#resize-box"
+       hx-swap="innerHTML">
+  </div>
+  <div id="resize-box" class="box">Измени размер окна</div>
+
+  <!-- Input trigger -->
+  <h2>Ввод текста</h2>
+  <input name="search"
+         placeholder="Введите что-нибудь..."
+         hx-get="/htmx/hx-trigger/adaptive/input/"
+         hx-trigger="input changed delay:300ms"
+         hx-target="#search-box"
+         hx-swap="innerHTML" />
+  <div id="search-box" class="box">Здесь появится результат</div>
+
+  <!-- Прокрутка -->
+  <h2>Событие прокрутки (scroll)</h2>
+  <div id="scroll-result" class="box">Прокрути страницу вниз</div>
+  <div hx-get="/htmx/hx-trigger/adaptive/scroll/"
+       hx-trigger="scroll from:window throttle:1000ms"
+       hx-target="#scroll-result"
+       hx-swap="innerHTML">
+  </div>
+
+  <div style="height: 50vh"> Просто место для имитации загрузки далее</div>
+
+  <h2>🎨 Ленивые прямоугольники с прокруткой</h2>
+  <div id="lazy-scroll-trigger"
+     hx-get="/htmx/hx-trigger/adaptive/next/"
+     hx-trigger="revealed"
+     hx-target="#lazy-scroll-trigger"
+     hx-swap="outerHTML"
+     class="loading-trigger">
+  👀 Прокрутите ниже для подгрузки...
+</div>
+<script>
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute("data-theme");
+    document.documentElement.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+  }
+</script>
+
+</body>
+</html>

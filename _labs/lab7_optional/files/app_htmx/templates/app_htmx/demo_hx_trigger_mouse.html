@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>HTMX hx-trigger Демонстрация</title>
+  <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px;}
+    h2 { padding: 40px 0px 0px 0px;}
+    .box {
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      display: inline-block;
+      min-width: 200px;
+      text-align: center;
+      background-color: #f9f9f9;
+    }
+    .response {
+      margin-top: 5px;
+      color: darkgreen;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<h1>HTMX: События мыши (hx-trigger)</h1>
+
+
+<!-- click -->
+<h2>click</h2>
+<div class="box">
+  <div>click (нажми)</div>
+  <button
+    hx-get="/htmx/hx-trigger/mouse/click"
+    hx-trigger="click"
+    hx-target="#click-response">
+    Кликни
+  </button>
+  <div id="click-response" class="response"></div>
+</div>
+
+<!-- dblclick -->
+<h2>dblclick</h2>
+<div class="box">
+  <div>dblclick (двойной клик)</div>
+  <button
+    hx-get="/htmx/hx-trigger/mouse/dblclick"
+    hx-trigger="dblclick"
+    hx-target="#dblclick-response">
+    Двойной клик
+  </button>
+  <div id="dblclick-response" class="response"></div>
+</div>
+
+<!-- mousedown -->
+<h2>mousedown</h2>
+<div class="box">
+  <div>mousedown (зажми кнопку)</div>
+  <button
+    hx-get="/htmx/hx-trigger/mouse/mousedown"
+    hx-trigger="mousedown"
+    hx-target="#mousedown-response">
+    Зажми кнопку
+  </button>
+  <div id="mousedown-response" class="response"></div>
+</div>
+
+<!-- mouseup -->
+<h2>mouseup</h2>
+<div class="box">
+  <div>mouseup (отпусти кнопку)</div>
+  <button
+    hx-get="/htmx/hx-trigger/mouse/mouseup"
+    hx-trigger="mouseup"
+    hx-target="#mouseup-response">
+    Отпусти кнопку
+  </button>
+  <div id="mouseup-response" class="response"></div>
+</div>
+
+<!-- mouseover -->
+<h2>mouseover</h2>
+<div class="box">
+  <div>mouseover (наведение)</div>
+  <button
+    hx-get="/htmx/hx-trigger/mouse/mouseover"
+    hx-trigger="mouseover once"
+    hx-target="#mouseover-response">
+    Наведи курсор
+  </button>
+  <div id="mouseover-response" class="response"></div>
+</div>
+
+<!-- mouseout -->
+<h2>mouseout</h2>
+<div class="box">
+  <div>mouseout (уход курсора)</div>
+  <button
+    hx-get="/htmx/hx-trigger/mouse/mouseout"
+    hx-trigger="mouseout"
+    hx-target="#mouseout-response">
+    Наведи и уведи
+  </button>
+  <div id="mouseout-response" class="response"></div>
+</div>
+
+<!-- mousemove -->
+<h2>mousemove</h2>
+<div class="box">
+  <div>mousemove (движение мыши)</div>
+  <button
+    hx-get="/htmx/hx-trigger/mouse/mousemove"
+    hx-trigger="mousemove throttle:1000ms"
+    hx-target="#mousemove-response">
+    Двигай мышь
+  </button>
+  <div id="mousemove-response" class="response"></div>
+</div>
+
+<!-- contextmenu -->
+<h2>contextmenu</h2>
+<div class="box">
+  <div>contextmenu (правая кнопка)</div>
+  <button
+    hx-get="/htmx/hx-trigger/mouse/contextmenu"
+    hx-trigger="contextmenu"
+    hx-target="#contextmenu-response">
+    ПКМ
+  </button>
+  <div id="contextmenu-response" class="response"></div>
+</div>
+
+</body>
+</html>
